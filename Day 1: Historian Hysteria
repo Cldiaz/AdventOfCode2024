@@ -66,7 +66,56 @@ do i=0 to lst.0
 end
 
 say "Distance:" dist
+
+numtimes = 0
+do i=1 to lst.0 
+    /*say "numtimes before:" numtimes*/
+    call searchAndCount lst2. lst.i 
+    numtimes = (lst.i * result) + numtimes
+    /*say "RESULT:" result   */
+end
+
+say "Similarity score: " numtimes
 exit
+
+/* Search for number in right list and count how many instances
+of the number there are.
+Using a binary search since the list is sorted
+*/
+searchAndCount:
+arg stem srch 
+low = 1
+high = lst.0
+search = srch 
+ftimes = 0
+do while (low <= high)
+    mid = trunc(low + (high - low) /2)
+    /* present at mid */
+    if (value(stem||mid) == search) then do
+        found = 'yes'
+        ftimes = 1
+        /* lets see how many there are */
+        prev = mid - 1;
+        do while (value(stem||mid) == value(stem||prev) )
+            ftimes = ftimes + 1
+            prev = prev - 1
+        end
+        next = mid + 1;
+        do while (value(stem||mid) == value(stem||next) )
+            ftimes = ftimes + 1
+            next = next + 1
+        end
+        leave
+    end
+    /* x greater, ignore left half */
+    if (value(stem||mid) < search) then do
+        low = mid + 1
+    end
+    /* x smalled, ignore right half*/
+    else high = mid - 1
+end 
+
+return ftimes
 
 /* Print stem subroutine 
   Just used for validation, also helped me get the
