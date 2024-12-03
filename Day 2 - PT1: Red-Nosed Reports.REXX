@@ -10,7 +10,7 @@ data.2 = "1 2 7 8 9"
 data.3 = "9 7 6 2 1"
 data.4 = "1 3 2 4 5"
 data.5 = "8 6 4 4 1"
-data.5 = "1 3 6 7 9"
+data.6 = "1 3 6 7 9"
 
 safecount = 0
 data.0 = 6
@@ -61,8 +61,6 @@ do i=1 to data.0
     end
     if status = 'safe' then
         safecount = safecount + 1
-    else
-        say data.i 
 end
 
 say 'Safe Reports #:' safecount
